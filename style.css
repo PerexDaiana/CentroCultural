@@ -1,0 +1,95 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 0;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+
+body::before {
+    position: relative;
+}
+
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #D4E8B0;
+    padding: 15px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    
+    
+    
+
+}
+header a {
+   
+    font-size: 18px;
+    padding: 10px 20px;
+    transition: 0.3s;
+    color: #000000;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-weight: bold;
+
+}
+
+header a:hover {
+    color: #83c705;
+
+}
+
+header p{
+    color: #354e06;
+    font-weight: bold;
+    font-size:xx-large;
+
+    
+}
+
+section {
+    height: 85vh;
+    padding: 40px;
+    
+}
+
+#registroAsociado {
+    scroll-margin-top: 70px;
+    background-color: #e6f5cb;
+    height: 100vh;
+    padding: 40px;
+}
+
+#AcercaDeNosotros{
+    scroll-margin-top: 70px;
+    background-color: #e6f5cb;
+    height: 90vh;
+    padding: 40px;
+}
+
+#Mapa{
+    scroll-margin-top: 70px;
+    background-color: #e6f5cb;
+    height: 92vh;
+    padding: 40px;
+}
+
+nav {
+    display: flex;
+    gap: 20px;
+}
+
+
+h1 {
+    font-family: 'Chakra Petch', sans-serif;
+    font-size: 72px;
+    padding-bottom: 3rem;
+}
+
+
