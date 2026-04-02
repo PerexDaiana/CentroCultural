@@ -1,0 +1,161 @@
+body {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    height: 100vh;
+    margin: 0;
+    background-color: #dee2d7be;
+    background-image: url("img/inicio.png");
+}
+
+h1 {
+    font-family: 'Chakra Petch', sans-serif;
+    font-size: 60px;
+    padding-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    color: white;
+}
+h3 {
+    font-family: 'Chakra Petch', sans-serif;
+    padding-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    color: rgb(0, 197, 211);
+}
+
+h3:hover{
+    color:rgb(204, 0, 211);
+}
+
+ul {
+    font-family: 'Chakra Petch', sans-serif;
+    padding-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    color: white;
+}
+ol {
+    font-family: 'Chakra Petch', sans-serif;
+    padding-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    color: white;
+}
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 100px;
+    width: 300px;
+    color: white;
+}
+
+.container_registrarColaborador {
+    display: flex;
+    flex-direction: column;
+    border-radius: 40px;
+    box-shadow: 2px 1px 2px rgb(0, 197, 211);
+    height: 600px;
+    width: 600px;
+    align-items: center;
+    padding-top: 20px;
+    color: white;
+    background-color: rgb(0, 0, 0);
+    
+    
+ 
+}
+.container_registrarColaborador h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 40px;
+    font-weight: 600;
+    color: white;
+}
+.container_registrarColaborador input {
+    display: flex;
+    align-items: center;
+  
+    padding: 8px;
+    border: 1px solid #b6adad;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+.container_registrarColaborador:focus{
+    outline: none;
+    border-color: #05274e;
+    box-shadow: 0 0 0 2px rgba(6, 20, 36, 0.2);
+}
+.container_registrarColaborador button {
+    width: 100%;
+    padding: 10px;
+    background-color: rgb(0, 197, 211);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 20px;
+}
+.container_registrarColaborador button:hover{
+    background-color: rgb(204, 0, 211);
+}
+
+
+.container_registroTaller {
+    display: flex;
+    flex-direction: column;
+    align-items: right;
+    border-radius: 40px;
+    box-shadow: 0 1px 3px rgb(94, 133, 82);
+    width: 900px;
+    padding-top: 40px;
+    padding-left: 50px;;
+ 
+}
+.container_registroTaller h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 40px;
+    font-weight: 600;
+}
+.container_registroTaller input {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border: 1px solid #b6adad;
+    border-radius: 6px;
+    font-size: 14px;
+    padding-left: 700px;
+    padding-bottom: 15px;
+}
+.container_registroTaller:focus{
+    outline: none;
+    border-color: #05274e;
+    box-shadow: 0 0 0 2px rgba(6, 20, 36, 0.2);
+}
+.container_registroTaller button {
+    width: 100%;
+    padding: 10px;
+    background-color: #658d70;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 20px;
+}
+.container_registroTaller button:hover{
+    background-color: #336643;
+}
+
+.boxes{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 80px;
+    width: 100%;
+    max-width: 1200px;
+}

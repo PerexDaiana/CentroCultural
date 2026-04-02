@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style-registro.css">
+    <title>Registro de Colaboradores</title>
+</head>
+<body>
+     <div class="boxes">
+        <div class="info">
+            <h1>¡Sumate al Centro Cultural!</h1>
+                <h3>¿Cuáles son los Beneficios?</h3>
+                <ul>
+                    <li>Registrar tu taller y tus actividades para que lleguen a mas personas</li>
+                    <li>Publicar información de Contacto y compartir tus redes sociales!</li>
+                </ul>
+                <h3>¿Cómo me registro?</h3>
+                <ul>
+                    ¡Completá el formulario con tus datos, luego podrás añadir tus talleres!
+                    <li>Un moderador revisa tu solicitud, se te enviará un email con el estado de tu solicitud</li>
+                    <li>Si tu solicitud es aprobada, tu información será visible en nuestro portal!</li>
+                </ul>
+            </div>
+        <div class="container_registrarColaborador">
+            <form class="registro_colaborador">
+                <label for="nombre">Indique Nombre y Apellido</label>
+                <input type="text" id="nombre_colaborador" placeholder="Nombre">
+                <input type="text" id="apellido_colaborador" placeholder="Apellido">
+                <label for="telefono">Número de Contacto</label>
+                <input type="text" id="numero_telefono" placeholder="Ejemplo: 12-3456-7891">
+                <label for="email">Correo Electronico Academico</label>
+                <input type="text" id="correo" placeholder="centroculturalung@gmail.com">
+                <label for="contraseña">Indique su contraseña</label>
+                <input type="password" id="contraseña_asociado" placeholder="********">
+            <button type="button" onclick="guardarColaborador()">Registrarse</button>
+            <p>¿Ya tenés cuenta? <a href="index.html">Iniciá sesión</a></p>
+            <!--para este punto que al registrar los datos mande a una pag que diga que está a verificar su solicutd -->
+        </form>
+        </div>
+    </div>
+     <script src="app.js"></script>
+    
+</body>
+</html>
