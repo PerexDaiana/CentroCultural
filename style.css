@@ -175,7 +175,7 @@ h1 {
     border-radius: 15px;
 }
 
-.contenedor {
+.contenedor { 
     display: flex;
     gap: 20px;
     padding: 20px;

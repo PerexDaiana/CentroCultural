@@ -6,7 +6,7 @@ function obtenerColaboradores(){
 function guardarColaboradores(lista){
     localStorage.setItem("colaboradoresPortal", JSON.stringify(lista));
 }
-
+ 
 
 function registrarColaborador(){
     const nombre = document.getElementById("nombre_colaborador").value.trim();
