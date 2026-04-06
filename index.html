@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <title>Centro Cultural UNGS</title>
 </head>
 
@@ -22,8 +24,34 @@
 
     <!--SECCIONES-->
     <section id="AcercaDeNosotros">
-        <h1>Descripcion acorde a texto y alguna imagen</h1>
-    </section>
+    <div class="acerca-container">
+        <h2>¿QUIENES SOMOS?</h2>
+        <p>
+            Somos una comunidad creada para fomentar la colaboración y la difusión de actividades culturales y educativas en la zona.
+            Nuestro objetivo es conectar a los residentes con los distintos talleres y servicios ofrecidos por miembros de la comunidad.
+        </p>
+        <p>
+            Nuestro compromiso es crear un espacio accesible, confiable y dinámico, donde la cultura y el 
+            aprendizaje estén al alcance de todos.
+        </p>
+    </div>
+    <div class="acerca-grid">
+        <div class="acerca-item">
+            <h3>🌍<a href="#Mapa">Comunidad</a></h3>
+            <p>Conectamos a vecinos con actividades culturales y educativas.</p>
+        </div>
+
+        <div class="acerca-item">
+            <h3>🎨<a href="#registroAsociado">Talleres</a></h3>
+            <p>Difundimos propuestas de arte, tecnología y formación.</p>
+        </div>
+
+    <div class="acerca-item">
+        <h3>🤝<a href="registro.html">Colaboracion</a></h3>
+        <p>Impulsamos el crecimiento de emprendimientos locales.</p>
+    </div>
+</div>
+</section>
 
 
 
@@ -31,18 +59,18 @@
         <div class="ventana_registro">
             <div class="container_registro">
                 <h1>Iniciar Sesion</h1>
-                <form>
-                    <label for="email">Indique su email o usuario</label>
-                    <input type="text" id="email_asociado" placeholder="centroculturalungs@gmail.com">
-                    <label for="contraseña">Indique su contraseña</label>
-                    <input type="password" id="contraseña_asociado" placeholder="********">
-                    <button type="submit">Ingresar</button>
+                <form onsubmit="return false;">
+                    <label for="email_login">Indique su email o usuario</label>
+                    <input type="text" id="email_login" placeholder="centroculturalungs@gmail.com">
+                    <label for="contrasenia_login">Indique su contraseña</label>
+                    <input type="password" id="contrasenia_login" placeholder="********">
+                    <button type="button" onclick="iniciarSesion()">Ingresar</button>
                 </form>
-
                 <p class="asociarse">¿Aún no estás asociado y querés proveer tu servicio? <a href="registro.html">Registrarse como Colaborador</a>
                 </p>
-            </div>
-            <div class="app_promocion">
+                </div>
+
+                <div class="app_promocion">
                 <h2>Descargá la App y seguí tus talleres!</h2>
                 <p>Escaneá el código QR y accedé desde tu celular</p>
                 <p class="mensaje">Disponible en Android, descargala ya</p>
@@ -51,15 +79,16 @@
         </div>
     </section>
 
-
-
-
-
-
-
     <section id="Mapa">
-        <h1>aca va mapita</h1>
-        <p>Ver requerimiento</p>
-    </section>
+    <div class="contenedor-mapa">
+        
+        <div id="map"></div>
+
+        <div id="lista_talleres"></div>
+
+    </div>
+</section>
+
+<script src="app.js"></script>
 </body>
 </html>

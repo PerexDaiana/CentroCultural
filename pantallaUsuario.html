@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel del Colaborador</title>
+    <link rel="stylesheet" href="style-pantallaUsuario.css">
+</head>
+
+<body onload="mostrarUsuario();">
+
+    <!-- HEADER -->
+    <header class="header">
+        <h1>¡Bienvenido!</h1>
+        <nav>
+            <a href="mis_talleres">Mis talleres</a>
+            <a href="mi_perfil">Perfil</a>
+        </nav>
+
+        <div class="user-info">
+            <span><span id="usuario_nombre"></span></span>
+            <button onclick="cerrarSesion()">Cerrar sesión</button>
+        </div>
+    </header>
+
+    <!-- CONTENIDO -->
+    <main  class="contenedor">
+
+        <!-- DERECHA -->
+        <section class="formulario">
+            <h2>Registrá tu taller</h2>
+            <form onsubmit="return false;">
+                <input type="text" id="nombre_taller" placeholder="Nombre del taller">
+                <textarea id="descripcion_taller" placeholder="Descripción"></textarea>
+                <input type="text" id="rubro_taller" placeholder="Rubro">
+                <input type="text" id="actividades_taller" placeholder="Actividades">
+                <input type="text" id="direccion_taller" placeholder="Dirección">
+                <input type="text" id="horarios_taller" placeholder="Horarios">
+                <input type="text" id="contacto_taller" placeholder="Teléfono">
+                <input type="text" id="redes_taller" placeholder="Redes">
+                <input type="text" id="foto_taller" placeholder="URL imagen">
+
+                <button onclick="registrarTaller()">Guardar Taller</button>
+            </form>
+        </section>
+
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
