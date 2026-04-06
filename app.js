@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD
 function obtenerColaboradores(){
     return JSON.parse(localStorage.getItem("colaboradoresPortal")) || [];
 }
@@ -223,3 +224,5 @@ function agregarMarcador(lat, lng, texto) {
         .bindPopup(texto)
         .openPopup();
 }
+=======
+>>>>>>> 51682b926415e56b15f04551a01803a2b9f500c6
