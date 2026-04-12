@@ -1,5 +1,13 @@
+body {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    height: 100vh;
+    margin: 0;
+    background-color: #dee2d7be;
+    background-image: url("img/2.png");
+}
 
-<<<<<<< HEAD
 h1 {
     font-family: 'Chakra Petch', sans-serif;
     font-size: 60px;
@@ -143,5 +151,3 @@ form {
     width: 100%;
     max-width: 1200px;
 }
-=======
->>>>>>> 51682b926415e56b15f04551a01803a2b9f500c6

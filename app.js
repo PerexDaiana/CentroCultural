@@ -1,38 +1,51 @@
+const buscador = document.getElementById("buscador");
+const lista = document.getElementById("lista_talleres");
+let map;
+let marcadores = [];
+let tarjetas = [];
 
-<<<<<<< HEAD
-function obtenerColaboradores(){
+
+const iconoUbicacion = L.icon({
+    iconUrl: 'img/ubicacion.png',
+    iconSize: [30, 30],
+    iconAnchor: [15, 30],
+    popupAnchor: [0, -30]
+});
+
+//  COLABORADORES
+function obtenerColaboradores() {
     return JSON.parse(localStorage.getItem("colaboradoresPortal")) || [];
 }
 
-function guardarColaboradores(lista){
+function guardarColaboradores(lista) {
     localStorage.setItem("colaboradoresPortal", JSON.stringify(lista));
 }
- 
 
-function registrarColaborador(){
+
+function registrarColaborador() {
     const nombre = document.getElementById("nombre_colaborador").value.trim();
     const apellido = document.getElementById("apellido_colaborador").value.trim();
     const telefono = document.getElementById("numero_telefono").value.trim();
     const correo = document.getElementById("correo").value.trim();
     const contrasenia = document.getElementById("contrasenia_asociada").value;
-    
-    if (!nombre || !apellido || !correo || !contrasenia){
+
+    if (!nombre || !apellido || !correo || !contrasenia) {
         alert("Complete todos los campos.");
-        return; 
+        return;
     }
 
     let colaboradoresPortal = obtenerColaboradores();
-    const colaboradorRegistrado = colaboradoresPortal.some( c => c.correo.toLowerCase() === correo.toLowerCase());
+    const colaboradorRegistrado = colaboradoresPortal.some(c => c.correo.toLowerCase() === correo.toLowerCase());
 
     //Cambiar por algun style que figure en la pag y no como alerta
-    if (colaboradorRegistrado){
+    if (colaboradorRegistrado) {
         alert("Usted ya se encuentra registrado!");
         return;
     }
 
-    
+
     //Generar ID a cada colaborador para poder asociar sus cursos
-    let idColaborador = colaboradoresPortal.length > 0 ? colaboradoresPortal[colaboradoresPortal.length-1].id + 1 : 1;
+    let idColaborador = colaboradoresPortal.length > 0 ? colaboradoresPortal[colaboradoresPortal.length - 1].id + 1 : 1;
 
     const nuevoColaborador = {
         id: idColaborador,
@@ -54,47 +67,45 @@ function registrarColaborador(){
     //document.querySelector(".registro_colaborador").reset();
 
     //Este será el inicio de sesion, donde la persona podra registrar su taller
-    window.location.href="pantallaUsuario.html";
+    window.location.href = "pantallaUsuario.html";
 
 }
-
-function iniciarSesion(){
+// INICIO DE SESION
+function iniciarSesion() {
     const correoLogin = document.getElementById("email_login").value.trim();
     const contraseniaLogin = document.getElementById("contrasenia_login").value;
-    let colaboradoresPortal = obtenerColaboradores();
-    const usuarioRegistrado = colaboradoresPortal.find (c => c.correo === correoLogin && c.contrasenia===contraseniaLogin);
-
-    if (usuarioRegistrado){
+    let colaboradoresPortal = obtenerColaboradores(); const usuarioRegistrado = colaboradoresPortal.find(c => c.correo === correoLogin && c.contrasenia === contraseniaLogin);
+    if (usuarioRegistrado) {
         //Guardamos la sesión
         localStorage.setItem("usuarioActivo", JSON.stringify(usuarioRegistrado));
-        window.location.href="pantallaUsuario.html";
-    } else{
+        window.location.href = "pantallaUsuario.html";
+    } else {
         alert("Usuario o contraseña incorrecta");
     }
-    
+
 }
 
-function obtenerUsuarioActivo(){
+function obtenerUsuarioActivo() {
     return JSON.parse(localStorage.getItem("usuarioActivo"));
 }
 
-function mostrarUsuario(){
+function mostrarUsuario() {
     const usuarioActivo = obtenerUsuarioActivo();
 
-    if (usuarioActivo){
+    if (usuarioActivo) {
         const mostrarActividad = document.getElementById("usuario_nombre");
-        if (mostrarActividad){
-            mostrarActividad.innerText= usuarioActivo.nombre + " " + usuarioActivo.apellido;
+        if (mostrarActividad) {
+            mostrarActividad.innerText = usuarioActivo.nombre + " " + usuarioActivo.apellido;
         }
     }
 
 }
 
-function cerrarSesion(){
+function cerrarSesion() {
     localStorage.removeItem("usuarioActivo");
     window.location.href = "index.html";
 }
-
+// CENTROS
 function obtenerTalleres() {
     return JSON.parse(localStorage.getItem("talleres")) || [];
 }
@@ -103,27 +114,34 @@ function guardarTalleres(lista) {
     localStorage.setItem("talleres", JSON.stringify(lista));
 }
 
-function registrarTaller(){
+async function registrarTaller() {
     const usuario = obtenerUsuarioActivo();
     const nombre = document.getElementById("nombre_taller").value.trim();
     const descripcion = document.getElementById("descripcion_taller").value.trim();
     const rubro = document.getElementById("rubro_taller").value.trim();
     const actividades = document.getElementById("actividades_taller").value.trim();
-    const direccion = document.getElementById("direccion_taller").value.trim();
     const horarios = document.getElementById("horarios_taller").value.trim();
     const contacto = document.getElementById("contacto_taller").value.trim();
     const redes = document.getElementById("redes_taller").value.trim();
     const foto = document.getElementById("foto_taller").value.trim();
 
-    if (!nombre || !descripcion || !rubro){
+    if (!nombre || !descripcion || !rubro) {
         alert("Complete los campos obligatorios");
         return;
     }
 
-    let talleres = obtenerTalleres();
+    const direccion = document.getElementById("direccion_taller").value.trim();
+    const coords = await obtenerCoordenadas(direccion);
 
-    let idTaller = talleres.length > 0 
-        ? talleres[talleres.length - 1].id + 1 
+    if (!coords) {
+        alert("Dirección no válida. Usá formato: Calle 123, Localidad");
+        return;
+    }
+
+    talleres = obtenerTalleres();
+
+    let idTaller = talleres.length > 0
+        ? talleres[talleres.length - 1].id + 1
         : 1;
 
     const nuevoTaller = {
@@ -138,6 +156,8 @@ function registrarTaller(){
         contacto,
         redes,
         foto,
+        lat: coords.lat,
+        lng: coords.lng,
         estado: "aprobado"
     };
 
@@ -152,58 +172,88 @@ function registrarTaller(){
     mostrarTalleresDisponibles();
 }
 
-
-
-
-/*function mostrarTalleres(){
-    const usuario = obtenerUsuarioActivo();
-    const contenedor = document.getElementById("lista_talleres");
-
-    let talleres = obtenerTalleres();
-
-    const misTalleres = talleres.filter(t => t.idColaborador === usuario.id);
-
-    let html = "";
-
-    misTalleres.forEach(t => {
-        html += `
-            <div class="taller">
-                <h3>${t.nombre}</h3>
-                <p>${t.descripcion}</p>
-                <p><strong>Estado:</strong> ${t.estado}</p>
-                <hr>
-            </div>
-        `;
-    });
-
-    contenedor.innerHTML = html;
-}*/
-
-
-function mostrarTalleresDisponibles(){
-    const usuario = obtenerUsuarioActivo();
+// MAPA
+function mostrarTalleresDisponibles() {
     const contenedor = document.getElementById("lista_talleres");
     let talleres = obtenerTalleres();
 
-    let html = "";
-    talleres.forEach(t => {
+    contenedor.innerHTML = "";
 
-        html += `
-            <div class="taller">
-            <img src="${t.foto || 'https://via.placeholder.com/300'}">
-                <h3>${t.nombre}</h3>
-                <p>${t.descripcion}</p>
-                <p>${t.actividades}</p>
-                <p>${t.direccion}</p>
-                <p>${t.horarios}</p>
-                
-            </div>
-        `;
+    marcadores = [];
+    let tarjetas = [];
+    talleres.forEach((t, index) => {
+
+        let lat = t.lat;
+        let lng = t.lng;
+
+
+        const marcador = L.marker([lat, lng], { icon: iconoUbicacion })
+            .addTo(map)
+            .bindPopup(`<b>${t.nombre}</b><br>${t.direccion}`);
+
+        marcadores.push(marcador);
+
+        const div = document.createElement("div");
+        tarjetas.push(div);
+        div.classList.add("taller");
+
+
+        div.dataset.index = index;
+
+        div.innerHTML = `
+        <img src="${t.foto || 'https://via.placeholder.com/300'}">
+         <h3>${t.nombre}</h3>
+        <p>${t.descripcion}</p>
+        <p>${t.actividades}</p>
+        <p>${t.direccion}</p>
+        <p>${t.horarios}</p>
+    `;
+
+        div.addEventListener("click", () => {
+            map.setView([lat, lng], 15);
+            marcador.openPopup();
+        });
+
+        contenedor.appendChild(div);
+        marcador.on("click", () => {
+            const tarjeta = tarjetas[index];
+            if (tarjeta) {
+                tarjeta.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                });
+                tarjeta.style.border = "3px solid rgb(1, 103, 110)";
+                setTimeout(() => {
+                    tarjeta.style.border = "none";
+                }, 1500);
+            }
+        });
     });
 
-    contenedor.innerHTML = html;
 }
-let map;
+async function obtenerCoordenadas(direccion) {
+    try {
+        const url = `https://servicios.usig.buenosaires.gob.ar/normalizar/?direccion=${encodeURIComponent(direccion)}&geocodificar=true`;
+
+        const respuesta = await fetch(url);
+        const data = await respuesta.json();
+
+        if (data.direccionesNormalizadas && data.direccionesNormalizadas.length > 0) {
+            const dir = data.direccionesNormalizadas[0];
+
+            return {
+                lat: dir.coordenadas.y,
+                lng: dir.coordenadas.x
+            };
+        } else {
+            return null;
+        }
+
+    } catch (error) {
+        console.error("Error al normalizar la dirección:", error);
+        return null;
+    }
+}
 
 //Inicio de mapa
 function inicializarMapa() {
@@ -224,5 +274,32 @@ function agregarMarcador(lat, lng, texto) {
         .bindPopup(texto)
         .openPopup();
 }
-=======
->>>>>>> 51682b926415e56b15f04551a01803a2b9f500c6
+
+//  BUSCADOR
+
+buscador.addEventListener("input", () => {
+    const texto = buscador.value.toLowerCase();
+
+    const talleres = lista.querySelectorAll(".taller");
+
+    talleres.forEach(taller => {
+        const contenido = taller.innerText.toLowerCase();
+        const index = parseInt(taller.dataset.index);
+        const marcador = marcadores[index];
+
+        if (contenido.includes(texto)) {
+            taller.style.display = "";
+
+            if (!map.hasLayer(marcador)) {
+                marcador.addTo(map);
+            }
+
+        } else {
+            taller.style.display = "none";
+
+            if (map.hasLayer(marcador)) {
+                map.removeLayer(marcador);
+            }
+        }
+    });
+});
