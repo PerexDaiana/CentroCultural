@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Mis Talleres</title>
+
+    <link rel="stylesheet" href="style-misTalleres.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</head>
+
+<body onload="mostrarUsuario();">
+
+    <header class="header">
+        <h1>Mis Talleres</h1>
+        <nav>
+            <a href="pantallaUsuario.html">Registrar nuevo taller</a>
+            <a href="mi_perfil">Perfil</a>
+
+        </nav>
+
+        <div class="user-info">
+            <span id="usuario_nombre"></span>
+            <button onclick="cerrarSesion()">Cerrar sesión</button>
+        </div>
+    </header>
+
+    <section class="contenedor-mapa">
+        <div id="map"></div>
+
+        <div class="panel-derecho">
+            <input type="text" id="buscador" placeholder="Buscar mis talleres">
+            <div id="lista_talleres"></div>
+        </div>
+    </section>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

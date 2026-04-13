@@ -1,0 +1,152 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 0;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
+                 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    background-image: url("img/3.png");
+}
+
+/* HEADER */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-image: url("img/4.png");
+}
+
+header nav {
+    display: flex;
+    gap: 20px;
+}
+
+header nav a {
+    font-size: 18px;
+    transition: 0.3s;
+    color: rgb(89, 179, 231);
+    font-weight: bold;
+    text-decoration: none;
+}
+
+header nav a:hover {
+    color: rgb(64, 8, 66);
+}
+
+h1 {
+    font-size: 30px;
+    color: rgb(0, 0, 0);
+}
+
+/* USER INFO */
+.user-info {
+    text-align: center;
+}
+
+.user-info button {
+    background-color: rgba(0, 197, 211, 0.815);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 5px;
+    padding: 5px 10px;
+}
+
+.user-info button:hover {
+    background-color: rgba(64, 8, 66, 0.747);
+}
+
+/* CONTENEDOR MAPA + PANEL */
+.contenedor-mapa {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    align-items: stretch;
+}
+
+/* MAPA */
+#map {
+    width: 50%;
+    max-width: 900px;
+    height: 700px;
+    border-radius: 15px;
+}
+
+/* PANEL DERECHO */
+.panel-derecho {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    flex: 1;
+    max-height: 700px;
+}
+
+/* BUSCADOR */
+#buscador {
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    outline: none;
+}
+
+#buscador:focus {
+    border-color: rgb(1, 103, 110);
+    box-shadow: 0 0 5px rgba(1, 103, 110, 0.5);
+}
+
+/* LISTA DE TALLERES */
+#lista_talleres {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding: 20px;
+    background: #ebe0e023;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+}
+
+/* TARJETA DE TALLER */
+.taller {
+    background: white;
+    border-radius: 12px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.taller img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.taller h3 {
+    text-align: center;
+}
+
+.taller p {
+    font-size: 14px;
+}
+
+/* MENSAJE SIN RESULTADOS */
+.lista-talleres-vacia {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 300px;
+    font-size: 18px;
+    color: #888;
+}

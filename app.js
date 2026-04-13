@@ -61,14 +61,81 @@ function registrarColaborador() {
     colaboradoresPortal.push(nuevoColaborador);
     guardarColaboradores(colaboradoresPortal);
 
-    localStorage.setItem("colaboradoresPortal", JSON.stringify(colaboradoresPortal));
+    localStorage.setItem("usuarioActivo", JSON.stringify(nuevoColaborador));
 
-    //Limpiamos casillas
-    //document.querySelector(".registro_colaborador").reset();
-
-    //Este será el inicio de sesion, donde la persona podra registrar su taller
     window.location.href = "pantallaUsuario.html";
 
+}
+
+function mostrarMisTalleres() {
+    const contenedor = document.getElementById("lista_talleres");
+    const usuario = obtenerUsuarioActivo();
+    let talleres = obtenerTalleres();
+    const misTalleres = talleres.filter(t => t.idColaborador === usuario.id);
+
+    contenedor.innerHTML = "";
+
+
+    marcadores.forEach(m => map.removeLayer(m));
+    marcadores = [];
+
+    let tarjetas = [];
+
+    if (misTalleres.length === 0) {
+        contenedor.innerHTML = `<p class='lista-talleres-vacia'>
+            Aún no tenés talleres disponibles, registrá el tuyo ingresando  
+            <a href="pantallaUsuario.html" class="link-registrar">acá</a>
+        </p>`;
+        return;
+    }
+
+    misTalleres.forEach((t, index) => {
+
+        let lat = t.lat;
+        let lng = t.lng;
+
+        const marcador = L.marker([lat, lng], { icon: iconoUbicacion })
+            .addTo(map)
+            .bindPopup(`<b>${t.nombre}</b><br>${t.direccion}`);
+
+        marcadores.push(marcador);
+
+        const div = document.createElement("div");
+        tarjetas.push(div);
+        div.classList.add("taller");
+
+        div.dataset.index = index;
+
+        div.innerHTML = `
+            <img src="${t.foto || 'https://via.placeholder.com/300'}">
+            <h3>${t.nombre}</h3>
+            <p>${t.descripcion}</p>
+            <p>${t.actividades}</p>
+            <p>${t.direccion}</p>
+            <p>${t.horarios}</p>
+        `;
+
+        div.addEventListener("click", () => {
+            map.setView([lat, lng], 15);
+            marcador.openPopup();
+        });
+
+        contenedor.appendChild(div);
+
+        marcador.on("click", () => {
+            const tarjeta = tarjetas[index];
+            if (tarjeta) {
+                tarjeta.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                });
+                tarjeta.style.border = "3px solid rgb(1, 103, 110)";
+                setTimeout(() => {
+                    tarjeta.style.border = "none";
+                }, 1500);
+            }
+        });
+    });
 }
 // INICIO DE SESION
 function iniciarSesion() {
@@ -167,9 +234,7 @@ async function registrarTaller() {
     alert("Taller registrado (pendiente de aprobación)");
 
     document.querySelector(".formulario form").reset();
-
-
-    mostrarTalleresDisponibles();
+    mostrarMisTalleres();
 }
 
 // MAPA
@@ -265,7 +330,14 @@ function inicializarMapa() {
 }
 document.addEventListener("DOMContentLoaded", function () {
     inicializarMapa();
-    mostrarTalleresDisponibles();
+
+    const pagina = window.location.pathname;
+
+    if (pagina.includes("misTalleres.html")) {
+        mostrarMisTalleres(); 
+    } else {
+        mostrarTalleresDisponibles(); 
+    }
 });
 
 //Para asociar a cada taller y su direccion!
