@@ -26,6 +26,23 @@ header {
     z-index: 1000;
     background-image: url("img/4.png");
 }
+button {
+    padding: 5px;
+    background-color: rgb(1, 103, 110);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 60px;
+    cursor: pointer;
+    transition: all 0.1s ease;
+    
+}
+button:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(135deg, rgb(1, 48, 51), rgba(0, 227, 248, 0.925));
+}
+
 header nav a {
     font-size: 18px;
     transition: 0.3s;

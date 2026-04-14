@@ -79,11 +79,11 @@ function mostrarMisTalleres() {
     marcadores.forEach(m => map.removeLayer(m));
     marcadores = [];
 
-    let tarjetas = [];
+    tarjetas = []; //sin let porque rompe
 
     if (misTalleres.length === 0) {
         contenedor.innerHTML = `<p class='lista-talleres-vacia'>
-            Aún no tenés talleres disponibles, registrá el tuyo ingresando  
+            Aún no tenés talleres disponibles, registrá el tuyo ingresando ->    
             <a href="pantallaUsuario.html" class="link-registrar">acá</a>
         </p>`;
         return;
@@ -113,6 +113,7 @@ function mostrarMisTalleres() {
             <p>${t.actividades}</p>
             <p>${t.direccion}</p>
             <p>${t.horarios}</p>
+            <button onclick="eliminarTaller(${t.id})">Eliminar</button>
         `;
 
         div.addEventListener("click", () => {
@@ -146,6 +147,7 @@ function iniciarSesion() {
         //Guardamos la sesión
         localStorage.setItem("usuarioActivo", JSON.stringify(usuarioRegistrado));
         window.location.href = "pantallaUsuario.html";
+        window.location.reload();
     } else {
         alert("Usuario o contraseña incorrecta");
     }
@@ -156,6 +158,8 @@ function obtenerUsuarioActivo() {
     return JSON.parse(localStorage.getItem("usuarioActivo"));
 }
 
+
+
 function mostrarUsuario() {
     const usuarioActivo = obtenerUsuarioActivo();
 
@@ -163,10 +167,43 @@ function mostrarUsuario() {
         const mostrarActividad = document.getElementById("usuario_nombre");
         if (mostrarActividad) {
             mostrarActividad.innerText = usuarioActivo.nombre + " " + usuarioActivo.apellido;
+
         }
+        
     }
 
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    actualizarNav();
+});
+
+function actualizarNav() {
+    const nav = document.getElementById("nav-principal");
+    const usuario = localStorage.getItem("usuarioActivo");
+    
+
+    if (usuario) {
+        nav.innerHTML = `
+            <a href="misTalleres.html">Mis talleres</a>
+            <a href="#Mapa">Centros</a>
+            <button onclick="cerrarSesion()">Cerrar sesión</button>
+            
+        `;
+        const seccionAcerca = document.getElementById("registroAsociado");
+
+        if (seccionAcerca) {
+        seccionAcerca.style.display = "none";
+        }
+    } else {
+        nav.innerHTML = `
+            <a href="#AcercaDeNosotros">Conocenos</a>
+            <a href="#registroAsociado">Inicia Sesion</a>
+            <a href="#Mapa">Centros</a>
+        `;
+    }
+}
+
 
 function cerrarSesion() {
     localStorage.removeItem("usuarioActivo");
@@ -234,6 +271,40 @@ async function registrarTaller() {
     alert("Taller registrado (pendiente de aprobación)");
 
     document.querySelector(".formulario form").reset();
+    mostrarMisTalleres();
+}
+
+function eliminarTaller(idTaller) {
+    let talleres = obtenerTalleres();
+    const usuario = obtenerUsuarioActivo();
+
+    // Buscar el taller
+    const taller = talleres.find(t => t.id == idTaller);
+
+    if (!taller && !confirmar) {
+        alert("Taller no encontrado");
+        return;
+    }
+
+    // Validar que el usuario sea el dueño
+    if (taller.idColaborador !== usuario.id) {
+        alert("No tenés permiso para eliminar este taller");
+        return;
+    }
+
+    // Confirmación
+    const confirmar = confirm("¿Estás seguro de que querés eliminar este taller?");
+    if (!confirmar) return;
+
+    // Filtrar (eliminar)
+    talleres = talleres.filter(t => t.id != idTaller);
+
+    // Guardar cambios
+    guardarTalleres(talleres);
+
+    alert("Taller eliminado correctamente");
+
+    // Refrescar vista
     mostrarMisTalleres();
 }
 
@@ -375,3 +446,4 @@ buscador.addEventListener("input", () => {
         }
     });
 });
+
