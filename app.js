@@ -422,23 +422,26 @@ function agregarMarcador(lat, lng, texto) {
 
 buscador.addEventListener("input", () => {
     const texto = buscador.value.toLowerCase();
+    const talleresData = obtenerTalleres(); // obtenemos los datos reales
+    const talleresDOM = lista.querySelectorAll(".taller");
 
-    const talleres = lista.querySelectorAll(".taller");
-
-    talleres.forEach(taller => {
-        const contenido = taller.innerText.toLowerCase();
-        const index = parseInt(taller.dataset.index);
+    talleresDOM.forEach((tallerDiv, index) => {
+        const taller = talleresData[index];
         const marcador = marcadores[index];
 
-        if (contenido.includes(texto)) {
-            taller.style.display = "";
+        const coincide =
+            taller.nombre.toLowerCase().includes(texto) ||
+            taller.direccion.toLowerCase().includes(texto);
+
+        if (coincide) {
+            tallerDiv.style.display = "";
 
             if (!map.hasLayer(marcador)) {
                 marcador.addTo(map);
             }
 
         } else {
-            taller.style.display = "none";
+            tallerDiv.style.display = "none";
 
             if (map.hasLayer(marcador)) {
                 map.removeLayer(marcador);
