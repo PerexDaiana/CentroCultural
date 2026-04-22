@@ -8,9 +8,7 @@ body {
     margin: 0;
     font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
-body::before {
-    position: relative;
-}
+
 h1 {
     font-family: 'Chakra Petch', sans-serif;
     font-size: 30px;
@@ -32,7 +30,7 @@ button {
     color: white;
     border: none;
     border-radius: 6px;
-    font-weight: 60px;
+    font-weight: 600;
     cursor: pointer;
     transition: all 0.1s ease;
     

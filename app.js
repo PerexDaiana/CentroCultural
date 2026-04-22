@@ -198,7 +198,7 @@ function actualizarNav() {
     } else {
         nav.innerHTML = `
             <a href="#AcercaDeNosotros">Conocenos</a>
-            <a href="#registroAsociado">Inicia Sesion</a>
+            <a href="#registroAsociado">Iniciar Sesion</a>
             <a href="#Mapa">Centros</a>
         `;
     }

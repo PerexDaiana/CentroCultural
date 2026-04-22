@@ -5,13 +5,12 @@
 }
 
 body {
-    margin: 0;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
                  'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     background-image: url("img/3.png");
 }
 
-/* HEADER */
+
 header {
     display: flex;
     justify-content: space-between;
@@ -58,27 +57,19 @@ h1 {
     margin-top: 5px;
     padding: 5px 10px;
 }
-button {
-    background-color: rgba(255, 255, 255, 0.356);
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    margin-top: 5px;
-    padding: 5px 10px;
-}
-button:hover {
-    transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-    background: linear-gradient(135deg, rgb(1, 48, 51), rgba(0, 227, 248, 0.925));
-}
-
-
 
 .user-info button:hover {
     background-color: rgba(64, 8, 66, 0.747);
 }
+section,
+#Mapa {
+    background-image: url("img/3.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
 
-/* CONTENEDOR MAPA + PANEL */
+
 .contenedor-mapa {
     display: flex;
     gap: 20px;
@@ -86,7 +77,7 @@ button:hover {
     align-items: stretch;
 }
 
-/* MAPA */
+
 #map {
     width: 50%;
     max-width: 900px;
@@ -94,7 +85,7 @@ button:hover {
     border-radius: 15px;
 }
 
-/* PANEL DERECHO */
+
 .panel-derecho {
     display: flex;
     flex-direction: column;
@@ -103,7 +94,7 @@ button:hover {
     max-height: 700px;
 }
 
-/* BUSCADOR */
+
 #buscador {
     padding: 12px;
     border-radius: 10px;
@@ -117,20 +108,20 @@ button:hover {
     box-shadow: 0 0 5px rgba(1, 103, 110, 0.5);
 }
 
-/* LISTA DE TALLERES */
+
 #lista_talleres {
     flex: 1;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
     padding: 20px;
-    background: #ebe0e023;
+    background: rgba(235, 224, 224, 0.14);
     border-radius: 15px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     overflow-y: auto;
 }
 
-/* TARJETA DE TALLER */
+
 .taller {
     background: rgba(255, 255, 255, 0.356);
     border-radius: 12px;
@@ -160,9 +151,10 @@ button:hover {
 
 .taller p {
     font-size: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-/* MENSAJE SIN RESULTADOS */
 .lista-talleres-vacia {
     grid-column: 1 / -1;
     display: flex;
