@@ -6,6 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style-registro.css">
     <title>Registro de Colaboradores</title>
+    <style>
+        .campo-error {
+            border-color: #e74c3c !important;
+            background-color: #fadbd8 !important;
+        }
+        .error-msg {
+            color: #e74c3c;
+            font-size: 0.85em;
+            margin-top: 4px;
+            display: block;
+        }
+    </style>
+    <!-- Módulos de la aplicación -->
+    <script src="modulos/validaciones.js"></script>
+    <script src="modulos/autenticacion.js"></script>
 </head>
 
 <body>
@@ -26,18 +41,23 @@
         </div>
         <div class="container_registrarColaborador">
             <form class="registro_colaborador">
-                <label for="nombre">Indique Nombre y Apellido</label>
-                <input type="text" id="nombre_colaborador" placeholder="Nombre">
-                <input type="text" id="apellido_colaborador" placeholder="Apellido">
-                <label for="telefono">Número de Contacto</label>
-                <input type="text" id="numero_telefono" placeholder="Ejemplo: 12-3456-7891">
-                <label for="email">Correo Electronico Academico</label>
-                <input type="text" id="correo" placeholder="centroculturalung@gmail.com">
-                <label for="contrasenia">Indique su contraseña</label>
-                <input type="password" id="contrasenia_asociada" placeholder="********">
+                <label for="nombre_colaborador">Nombre <span style="color: red;">*</span></label>
+                <input type="text" id="nombre_colaborador" placeholder="Tu nombre" maxlength="50">
+                
+                <label for="apellido_colaborador">Apellido <span style="color: red;">*</span></label>
+                <input type="text" id="apellido_colaborador" placeholder="Tu apellido" maxlength="50">
+                
+                <label for="numero_telefono">Teléfono <span style="color: red;">*</span></label>
+                <input type="tel" id="numero_telefono" placeholder="Ej: 11-1234-5678" maxlength="20">
+                
+                <label for="correo">Email <span style="color: red;">*</span></label>
+                <input type="email" id="correo" placeholder="tu@email.com" maxlength="100">
+                
+                <label for="contrasenia_asociada">Contraseña <span style="color: red;">*</span></label>
+                <input type="password" id="contrasenia_asociada" placeholder="Min: 6 caracteres, 1 mayúscula, 1 número" maxlength="50">
+                
                 <button type="button" onclick="registrarColaborador()">Registrarse</button>
                 <p>¿Ya tenés cuenta? <a href="index.html">Iniciá sesión</a></p>
-                <!--para este punto que al registrar los datos mande a una pag que diga que está a verificar su solicutd -->
             </form>
         </div>
     </div>
