@@ -1,0 +1,154 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
+        'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    background-image: url("img/3.png");
+    color: #333;
+}
+
+/* HEADER (consistente con tu sistema) */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: #9facac;
+}
+
+header h1 {
+    font-size: 26px;
+    color: rgb(1, 103, 110);
+}
+
+header nav {
+    display: flex;
+    gap: 15px;
+}
+
+header button {
+    background: white;
+    color: rgb(1, 103, 110);
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+header button:hover {
+    background-color: #d9f0f2;
+}
+
+/* CONTENIDO */
+.contenedor {
+    padding: 25px;
+}
+
+/* BADGE INFO */
+.panel-info {
+    margin-bottom: 15px;
+}
+
+.badge {
+    display: inline-block;
+    background: rgba(1, 103, 110, 0.1);
+    color: rgb(1, 103, 110);
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+/* GRID */
+#lista_pendientes {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 18px;
+}
+
+/* CARD MODERADOR (alineada a .taller del home) */
+.taller-moderador {
+    background: rgba(255, 255, 255, 0.45);
+    border-radius: 12px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.taller-moderador:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(135deg, rgb(1, 48, 51), rgba(0, 227, 248, 0.925));
+    color: white;
+}
+
+.taller-moderador h3 {
+    text-align: center;
+    font-size: 18px;
+}
+
+.taller-moderador p {
+    font-size: 14px;
+}
+
+/* BOTONES (estilo consistente con home) */
+.botones {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+/* base */
+.btn-aprobar,
+.btn-rechazar {
+    flex: 1;
+    padding: 8px 10px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* APROBAR (principal del sistema) */
+.btn-aprobar {
+    background: rgb(1, 103, 110);
+    color: white;
+}
+
+.btn-aprobar:hover {
+    transform: translateY(-2px);
+    background: rgb(0, 160, 170);
+}
+
+/* RECHAZAR (secundario limpio) */
+.btn-rechazar {
+    background: transparent;
+    color: rgb(81, 1, 83);
+    border: 1px solid rgba(81, 1, 83, 0.4);
+}
+
+.btn-rechazar:hover {
+    background: rgba(81, 1, 83, 0.1);
+    transform: translateY(-2px);
+}
+
+/* EMPTY STATE */
+.sin-pendientes {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 30px;
+    font-size: 16px;
+    color: #666;
+}

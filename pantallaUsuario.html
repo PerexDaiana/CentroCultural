@@ -10,6 +10,7 @@
             border-color: #e74c3c !important;
             background-color: #fadbd8 !important;
         }
+
         .error-msg {
             color: #e74c3c;
             font-size: 0.85em;
@@ -29,8 +30,7 @@
     <!-- HEADER -->
     <header class="header">
         <h1>¡Bienvenido!</h1>
-        <nav>
-
+        <nav id="nav-principal">
             <a href="misTalleres.html">Mis talleres</a>
         </nav>
 
@@ -49,10 +49,11 @@
             <form onsubmit="return false;">
                 <label for="nombre_taller">Nombre del taller <span style="color: red;">*</span></label>
                 <input type="text" id="nombre_taller" placeholder="Ej: Taller de Pintura" maxlength="100">
-                
+
                 <label for="descripcion_taller">Descripción <span style="color: red;">*</span></label>
-                <textarea id="descripcion_taller" placeholder="Describe tu taller (mín. 10 caracteres)" maxlength="500" rows="4"></textarea>
-                
+                <textarea id="descripcion_taller" placeholder="Describe tu taller (mín. 10 caracteres)" maxlength="500"
+                    rows="4"></textarea>
+
                 <label for="rubro_taller">Rubro <span style="color: red;">*</span></label>
                 <select id="rubro_taller">
                     <option value="">-- Selecciona un rubro --</option>
@@ -67,13 +68,31 @@
                     <option value="Bienestar">Bienestar</option>
                     <option value="Otro">Otro</option>
                 </select>
-                
+
                 <label for="actividades_taller">Actividades </label>
                 <input type="text" id="actividades_taller" placeholder="Ej: Pintura, Escultura" maxlength="200">
-                
-                <label for="direccion_taller">Dirección <span style="color: red;">*</span></label>
-                <input type="text" id="direccion_taller" placeholder="Ej: Calle 25 de Mayo 450, La Matanza" maxlength="200">
-                
+
+                <label for="tipo_ubicacion">
+                    Ubicación del taller <span style="color: red;">*</span>
+                </label>
+
+                <select id="tipo_ubicacion" onchange="manejarTipoUbicacion()">
+                    <option value="">-- Selecciona una opción --</option>
+                    <option value="SEDE">Centro Cultural UNGS</option>
+                    <option value="PARTICULAR">Dirección particular</option>
+                </select>
+
+                <div id="contenedor_direccion" style="display: none;">
+
+                    <label for="direccion_taller" id="label_direccion">
+                        Dirección <span style="color: red;">*</span>
+                    </label>
+
+                    <input type="text" id="direccion_taller" placeholder="Ej: Calle 25 de Mayo 450, La Matanza"
+                        maxlength="200">
+
+                </div>
+
                 <label for="horarios_taller">Horarios <span style="color: red;">*</span></label>
                 <select id="horarios_taller">
                     <option value="">-- Selecciona franja horaria --</option>
@@ -82,13 +101,13 @@
                     <option value="Noche (18:00 - 22:00)">Noche (18:00 - 22:00)</option>
                     <option value="Flexible">Flexible</option>
                 </select>
-                
+
                 <label for="contacto_taller">Teléfono <span style="color: red;">*</span></label>
                 <input type="tel" id="contacto_taller" placeholder="Ej: 11-1234-5678" maxlength="20">
-                
+
                 <label for="redes_taller">Redes Sociales</label>
                 <input type="text" id="redes_taller" placeholder="@usuario o instagram.com/usuario" maxlength="200">
-                
+
                 <label for="foto_taller">Imagen</label>
                 <input type="url" id="foto_taller" placeholder="https://ejemplo.com/imagen.jpg" maxlength="300">
 

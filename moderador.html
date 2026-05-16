@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Panel Moderador</title>
+    <link rel="stylesheet" href="style-moderador.css">
+
+    <!-- MÓDULOS -->
+    <script src="modulos/validaciones.js"></script>
+    <script src="modulos/autenticacion.js"></script>
+    <script src="modulos/talleres.js"></script>
+</head>
+
+<body onload="mostrarTalleresPendientes()">
+
+    <header class="header">
+        <div class="header-left">
+            <h1>Gestión de talleres</h1>
+        </div>
+
+        <nav id="nav-principal">
+            <button onclick="cerrarSesion()">Cerrar sesión</button>
+        </nav>
+    </header>
+
+    <main class="contenedor">
+
+        <!-- PANEL INFO -->
+        <section class="panel-info">
+            <div class="badge">Pendientes de aprobación</div>
+        </section>
+
+        <!-- LISTA -->
+        <section class="panel">
+            <div id="lista_pendientes"></div>
+        </section>
+
+    </main>
+
+</body>
+
+</html>

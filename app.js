@@ -16,9 +16,14 @@ document.addEventListener("DOMContentLoaded", function () {
     const pagina = window.location.pathname;
 
     if (pagina.includes("misTalleres.html")) {
-        mostrarMisTalleres(); 
-    } else if (pagina.includes("index.html") || pagina.endsWith("/")) {
-        mostrarTalleresDisponibles(); 
+        mostrarMisTalleres();
     }
+    else if (pagina.includes("index.html") || pagina.endsWith("/")) {
+        mostrarTalleresDisponibles();
+    }
+    else if (pagina.includes("moderador.html")) {
+        mostrarTalleresPendientes();
+    }
+
 });
 

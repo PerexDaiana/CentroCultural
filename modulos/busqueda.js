@@ -3,7 +3,7 @@
 
 function inicializarBuscador() {
     const buscador = document.getElementById("buscador");
-    
+
     if (!buscador) return;
 
     buscador.addEventListener("input", () => {
@@ -23,24 +23,21 @@ function filtrarTalleres() {
 
     talleresDOM.forEach((tallerDiv, index) => {
         const taller = talleresData[index];
-        
+
         if (!taller) return;
 
         const marcador = marcadores[index];
-
         const coincide =
             taller.nombre.toLowerCase().includes(texto) ||
             taller.direccion.toLowerCase().includes(texto);
 
         if (coincide) {
             tallerDiv.style.display = "";
-
             if (!map.hasLayer(marcador)) {
                 marcador.addTo(map);
             }
         } else {
             tallerDiv.style.display = "none";
-
             if (map.hasLayer(marcador)) {
                 map.removeLayer(marcador);
             }

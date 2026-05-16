@@ -2,7 +2,30 @@
 // Gestión de registro, login, sesiones y navegación
 
 function obtenerColaboradores() {
-    return JSON.parse(localStorage.getItem("colaboradoresPortal")) || [];
+
+    let colaboradores =
+        JSON.parse(localStorage.getItem("colaboradoresPortal")) || [];
+
+    // Crear Admin 
+    const existeAdmin = colaboradores.find(
+        c => c.correo === "admin@ungs.com"
+    );
+
+    if (!existeAdmin) {
+
+        colaboradores.push({
+            id: 0,
+            nombre: "Administrador",
+            apellido: "UNGS",
+            correo: "admin@ungs.com",
+            contrasenia: "Admin123",
+            rol: "moderador"
+        });
+
+        guardarColaboradores(colaboradores);
+    }
+
+    return colaboradores;
 }
 
 function guardarColaboradores(lista) {
@@ -59,7 +82,8 @@ function registrarColaborador() {
         apellido: apellido,
         telefono: telefono,
         correo: correo,
-        contrasenia: contrasenia
+        contrasenia: contrasenia,
+        rol: "colaborador"
     };
 
     let colaboradoresPortal = obtenerColaboradores();
@@ -90,13 +114,18 @@ function iniciarSesion() {
     }
 
     let colaboradoresPortal = obtenerColaboradores();
-    const usuarioRegistrado = colaboradoresPortal.find(c => 
+    const usuarioRegistrado = colaboradoresPortal.find(c =>
         c.correo === correoLogin && c.contrasenia === contraseniaLogin
     );
 
     if (usuarioRegistrado) {
         localStorage.setItem("usuarioActivo", JSON.stringify(usuarioRegistrado));
-        window.location.href = "pantallaUsuario.html";
+        // Redirección segín
+        if (usuarioRegistrado.rol === "moderador") {
+            window.location.href = "moderador.html";
+        } else {
+            window.location.href = "pantallaUsuario.html";
+        }
     } else {
         mostrarError("contrasenia_login", "Usuario o contraseña incorrecta");
     }
@@ -113,7 +142,7 @@ function cerrarSesion() {
 
 function mostrarUsuario() {
     const usuarioActivo = obtenerUsuarioActivo();
-
+    console.log(usuarioActivo);
     if (usuarioActivo) {
         const mostrarActividad = document.getElementById("usuario_nombre");
         if (mostrarActividad) {
@@ -123,8 +152,19 @@ function mostrarUsuario() {
 }
 
 function actualizarNav() {
+    console.log("ENTRÓ A actualizarNav");
     const nav = document.getElementById("nav-principal");
+
+    if (!nav) return;
     const usuario = localStorage.getItem("usuarioActivo");
+    const pagina = window.location.pathname;
+
+    if (
+        pagina.includes("misTalleres.html") ||
+        pagina.includes("pantallaUsuario.html")
+    ) {
+        return;
+    }
 
     if (usuario) {
         nav.innerHTML = `
@@ -132,14 +172,17 @@ function actualizarNav() {
             <a href="#Mapa">Centros</a>
             <button onclick="cerrarSesion()">Cerrar sesión</button>
         `;
-        const seccionAcerca = document.getElementById("registroAsociado");
+
+        const seccionAcerca =
+            document.getElementById("registroAsociado");
         if (seccionAcerca) {
             seccionAcerca.style.display = "none";
         }
+
     } else {
         nav.innerHTML = `
             <a href="#AcercaDeNosotros">Conocenos</a>
-            <a href="#registroAsociado">Iniciar Sesion</a>
+            <a href="#registroAsociado">Inicia Sesion</a>
             <a href="#Mapa">Centros</a>
         `;
     }

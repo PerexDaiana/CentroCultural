@@ -86,13 +86,13 @@ async function registrarTaller() {
         foto,
         lat: coords.lat,
         lng: coords.lng,
-        estado: "aprobado"
+        estado: "pendiente"
     };
 
     talleres.push(nuevoTaller);
     guardarTalleres(talleres);
 
-    alert("¡Taller registrado exitosamente!");
+    alert("¡Taller registrado exitosamente! Quedó pendiente de aprobación.");
 
     document.querySelector(".formulario form").reset();
     campos.forEach(campo => limpiarError(campo));
@@ -123,18 +123,43 @@ function eliminarTaller(idTaller) {
     alert("Taller eliminado correctamente");
     mostrarMisTalleres();
 }
+function filtrarTalleresPorEstado(talleres, estados) {
+
+    return talleres.filter(
+        t => estados.includes(t.estado)
+    );
+}
+
+function obtenerTalleresPendientes() {
+
+    return filtrarTalleresPorEstado(
+        obtenerTalleres(),
+        ["pendiente"]
+    );
+}
+
+function obtenerTalleresAprobados() {
+
+    return filtrarTalleresPorEstado(
+        obtenerTalleres(),
+        ["aprobado"]
+    );
+}
 
 function mostrarMisTalleres() {
     const contenedor = document.getElementById("lista_talleres");
     const usuario = obtenerUsuarioActivo();
     let talleres = obtenerTalleres();
     const misTalleres = talleres.filter(t => t.idColaborador === usuario.id);
-
+    const talleresVisibles = filtrarTalleresPorEstado(
+        misTalleres,
+        ["pendiente", "aprobado", "rechazado"]
+    );
     contenedor.innerHTML = "";
     limpiarMarcadores();
     tarjetas = [];
 
-    if (misTalleres.length === 0) {
+    if (talleresVisibles.length === 0) {
         contenedor.innerHTML = `<p class='lista-talleres-vacia'>
             Aún no tenés talleres disponibles, registrá el tuyo ingresando ->    
             <a href="pantallaUsuario.html" class="link-registrar">acá</a>
@@ -142,7 +167,7 @@ function mostrarMisTalleres() {
         return;
     }
 
-    misTalleres.forEach((t, index) => {
+    talleresVisibles.forEach((t, index) => {
         const marcador = crearMarcador(t, index, true);
         const tarjeta = crearTarjeta(t, index, marcador, true);
         contenedor.appendChild(tarjeta);
@@ -150,13 +175,26 @@ function mostrarMisTalleres() {
 }
 
 function mostrarTalleresDisponibles() {
+
     const contenedor = document.getElementById("lista_talleres");
+    const usuario = obtenerUsuarioActivo();
     let talleres = obtenerTalleres();
+
+    talleres = talleres.filter(t => {
+        // APROBADOS → visibles para todos
+        if (t.estado === "aprobado") {
+            return true;
+        }
+        // PENDIENTES → solo el usuario activo
+        if (t.estado === "pendiente" && usuario && t.idColaborador === usuario.id) {
+            return true;
+        }
+        return false;
+    });
 
     contenedor.innerHTML = "";
     limpiarMarcadores();
     tarjetas = [];
-
     talleres.forEach((t, index) => {
         const marcador = crearMarcador(t, index, false);
         const tarjeta = crearTarjeta(t, index, marcador, false);
@@ -164,10 +202,33 @@ function mostrarTalleresDisponibles() {
     });
 }
 
+function mostrarTalleresPendientes() {
+    const contenedor = document.getElementById("lista_pendientes");
+    let talleres = obtenerTalleresPendientes();
+    contenedor.innerHTML = "";
+
+    if (talleres.length === 0) {
+        contenedor.innerHTML = "<p>No hay talleres pendientes.</p>";
+        return;
+    }
+
+    talleres.forEach((taller) => {
+
+        const div = document.createElement("div");
+        div.classList.add("taller")
+        div.innerHTML = `<h3>${taller.nombre}</h3>
+            <p>${taller.descripcion}</p>
+            <p><strong>Estado:</strong> ${taller.estado}</p>
+            <button onclick="aprobarTaller(${taller.id})">Aprobar</button>
+            <button onclick="rechazarTaller(${taller.id})">Rechazar</button>
+        `;
+        contenedor.appendChild(div);
+    });
+}
+
 function crearMarcador(taller, index, esMio) {
     let lat = taller.lat;
     let lng = taller.lng;
-
     const marcador = L.marker([lat, lng], { icon: iconoUbicacion })
         .addTo(map)
         .bindPopup(`<b>${taller.nombre}</b><br>${taller.direccion}`);
@@ -182,12 +243,9 @@ function crearMarcador(taller, index, esMio) {
                 block: "center"
             });
             tarjeta.style.border = "3px solid rgb(1, 103, 110)";
-            setTimeout(() => {
-                tarjeta.style.border = "none";
-            }, 1500);
+            setTimeout(() => { tarjeta.style.border = "none"; }, 1500);
         }
     });
-
     return marcador;
 }
 
@@ -196,10 +254,13 @@ function crearTarjeta(taller, index, marcador, esMio) {
     tarjetas.push(div);
     div.classList.add("taller");
     div.dataset.index = index;
-
-    const botonEliminar = esMio ? 
-        `<button onclick="eliminarTaller(${taller.id})">Eliminar</button>` : 
-        '';
+    const botonEliminar = esMio
+        ? `<button onclick="eliminarTaller(${taller.id})">Eliminar</button>`
+        : '';
+    // Mostrar estado solo en Mis talleres
+    const estadoHTML = esMio
+        ? `<p><strong>Estado:</strong> ${taller.estado}</p>`
+        : '';
 
     div.innerHTML = `
         <img src="${taller.foto || 'https://via.placeholder.com/300'}">
@@ -208,13 +269,71 @@ function crearTarjeta(taller, index, marcador, esMio) {
         <p>${taller.actividades}</p>
         <p>${taller.direccion}</p>
         <p>${taller.horarios}</p>
+        ${estadoHTML}
         ${botonEliminar}
     `;
 
     div.addEventListener("click", () => {
+        if (!marcador) return;
         map.setView([taller.lat, taller.lng], 15);
         marcador.openPopup();
     });
-
     return div;
+}
+
+function manejarTipoUbicacion() {
+    const tipo = document.getElementById("tipo_ubicacion").value;
+    const contenedor = document.getElementById("contenedor_direccion");
+    const inputDireccion = document.getElementById("direccion_taller");
+
+    // No se seleccionó opción
+    if (tipo === "") {
+        contenedor.style.display = "none";
+        inputDireccion.value = "";
+        inputDireccion.disabled = false;
+        return;
+    }
+
+    // Mostrar contenedor
+    contenedor.style.display = "block";
+
+    // Se dicta en Centro Cultural
+    if (tipo === "SEDE") {
+        inputDireccion.value = "Junín 1930, CABA";
+        inputDireccion.disabled = true;
+    }
+
+    // Es taller particular
+    else if (tipo === "PARTICULAR") {
+        inputDireccion.value = "";
+        inputDireccion.disabled = false;
+    }
+}
+
+function aprobarTaller(idTaller) {
+    let talleres = obtenerTalleres();
+    const taller = talleres.find(t => t.id == idTaller);
+
+    if (!taller) {
+        alert("Taller no encontrado");
+        return;
+    }
+    taller.estado = "aprobado";
+    guardarTalleres(talleres);
+    alert("Taller aprobado correctamente");
+    mostrarTalleresPendientes();
+}
+
+function rechazarTaller(idTaller) {
+    let talleres = obtenerTalleres();
+    const taller = talleres.find(t => t.id == idTaller);
+
+    if (!taller) {
+        alert("Taller no encontrado");
+        return;
+    }
+    taller.estado = "rechazado";
+    guardarTalleres(talleres);
+    alert("Taller rechazado");
+    mostrarTalleresPendientes();
 }
