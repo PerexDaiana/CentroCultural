@@ -177,24 +177,14 @@ function mostrarMisTalleres() {
 function mostrarTalleresDisponibles() {
 
     const contenedor = document.getElementById("lista_talleres");
-    const usuario = obtenerUsuarioActivo();
     let talleres = obtenerTalleres();
 
-    talleres = talleres.filter(t => {
-        // APROBADOS → visibles para todos
-        if (t.estado === "aprobado") {
-            return true;
-        }
-        // PENDIENTES → solo el usuario activo
-        if (t.estado === "pendiente" && usuario && t.idColaborador === usuario.id) {
-            return true;
-        }
-        return false;
-    });
+    talleres = talleres.filter(t => t.estado === "aprobado");
 
     contenedor.innerHTML = "";
     limpiarMarcadores();
     tarjetas = [];
+
     talleres.forEach((t, index) => {
         const marcador = crearMarcador(t, index, false);
         const tarjeta = crearTarjeta(t, index, marcador, false);

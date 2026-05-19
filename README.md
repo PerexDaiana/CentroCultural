@@ -19,6 +19,7 @@ La aplicación permite a integrantes de la comunidad publicar sus propios taller
 - [Dependencias externas](#dependencias-externas)
 - [Consideraciones de seguridad y limitaciones](#consideraciones-de-seguridad-y-limitaciones)
 
+
 ---
 
 ## Características Principales
@@ -29,8 +30,15 @@ La aplicación permite a integrantes de la comunidad publicar sus propios taller
 - **Registro de usuarios** (*colaboradores*) con validación de campos en el cliente.
 - **Gestión de talleres autenticada**: creación y eliminación de talleres propios.
 - **Sección personal** "Mis Talleres" para que cada colaborador administre sus publicaciones.
+- **Flujo de estados de talleres (pendiente, aprobado y rechazado)** que simula un proceso de moderación.
+      Sistema de visibilidad condicional:
+        *Los talleres aprobados son visibles para todos los usuarios.
+        *Los talleres pendientes son visibles para el usuario que los creó, en la sección “Mis Talleres” y en el panel del moderador.
+        *Los talleres rechazados solo son visibles para su creador en la sección “Mis Talleres”.
 - **Geocodificación automática** de direcciones mediante la API USIG del Gobierno de la Ciudad de Buenos Aires.
 - **Persistencia local** mediante `localStorage`; sin backend ni base de datos externa.
+- **Rol de moderador simulado** se incluye un usuario administrador que permite acceder a un panel de moderación para aprobar o rechazar talleres.
+- **Simulación del flujo de aprobación** el sistema implementa estados de talleres (pendiente, aprobado y rechazado) sin backend, simulando un proceso de moderación interno.
 
 ---
 
@@ -60,12 +68,13 @@ CentroCultural-main/
 ├── registro.html               # Formulario de registro de nuevos colaboradores
 ├── pantallaUsuario.html        # Panel del colaborador autenticado (registrar talleres)
 ├── misTalleres.html            # Vista personal: talleres del usuario en sesión
+├── moderador.html              # Vista de aprobación (simulada)
 │
 ├── app.js                      # Coordinador principal; inicializa módulos al cargar el DOM
 │
 ├── modulos/
 │   ├── autenticacion.js        # Registro, login, logout y gestión de sesión
-│   ├── talleres.js             # CRUD de talleres y renderizado de tarjetas
+│   ├── talleres.js             # CRUD de talleres, estados y renderizado de tarjetas
 │   ├── mapa.js                 # Inicialización de Leaflet, marcadores y geocodificación
 │   ├── busqueda.js             # Filtrado en tiempo real por nombre y dirección
 │   └── validaciones.js         # Funciones de validación reutilizables (email, teléfono, URL, etc.)
@@ -74,6 +83,7 @@ CentroCultural-main/
 ├── style-registro.css          # Estilos para registro.html
 ├── style-pantallaUsuario.css   # Estilos para pantallaUsuario.html
 ├── style-misTalleres.css       # Estilos para misTalleres.html
+├── style-moderador.css         # Estilos para moderador.html
 │
 └── img/                        # Recursos gráficos (imágenes de muestra, ícono de mapa, QR)
 ```
@@ -98,7 +108,14 @@ Administra la entidad central del sistema. Los talleres se almacenan en `localSt
 - `eliminarTaller(idTaller)`: verifica autoría y elimina el taller del almacenamiento.
 - `mostrarTalleresDisponibles()`: renderiza todos los talleres en `index.html`.
 - `mostrarMisTalleres()`: renderiza únicamente los talleres del colaborador activo en `misTalleres.html`.
+- `aprobarTaller(idTaller)`: cambia el estado del taller a aprobado.
+- `rechazarTaller(idTaller)`: cambia el estado del taller a rechazado.
 - `crearMarcador()` / `crearTarjeta()`: renderizan la representación visual de cada taller en mapa y lista respectivamente, con interacción bidireccional (clic en tarjeta → centra mapa; clic en marcador → resalta tarjeta).
+
+- **Regla de visibilidad de talleres:**
+      *aprobado: visible para todos los usuarios.
+      *pendiente: visible únicamente en “Mis Talleres” del creador y en el panel del moderador.
+      *rechazado: visible solo para el creador en “Mis Talleres”.
 
 ### `mapa.js`
 Encapsula la integración con Leaflet.js y la API de geocodificación de USIG. Expone:
@@ -135,14 +152,47 @@ Accede a index.html
 
 ```
 Inicia sesión en index.html → redirigido a pantallaUsuario.html
-  └─> Registra un nuevo taller (con geocodificación automática de la dirección)
+  └─> Registra un nuevo taller (con geocodificación automática de la dirección y estado inicial: "pendiente")
   └─> Accede a "Mis Talleres" (→ misTalleres.html)
       └─> Visualiza sus talleres en lista y mapa
       └─> Busca entre sus propios talleres
       └─> Elimina un taller registrado
-  └─> Visualiza todos los talleres publicados (sección "Inicio")
+  └─> Visualiza talleres con estados: pendiente, aprobado y rechazado
+          └─> Los talleres pendientes y rechazados solo se muestran en “Mis Talleres”
+  └─> Visualiza en Home únicamente talleres aprobados *
   └─> Cierra sesión
 ```
+
+### Usuario moderador (simulado)
+```
+Inicia sesión con usuario moderador → redirigido a moderador.html
+  └─> Visualiza talleres en estado "pendiente"
+  └─> Puede aprobar talleres (→ aprobado)
+  └─> Puede rechazar talleres (→ rechazado)
+```
+
+
+### Reglas de visibilidad de talleres:
+
+- *Aprobado*:
+→ Visible para todos los usuarios en Home y Mis Talleres
+
+- *Pendiente*:
+→ Visible en Mis Talleres SOLO para el creador
+→ Visible en el panel del Moderador con opción de aprobación o rechazo
+
+- *Rechazado*:
+→ Visible únicamente en “Mis Talleres” del usuario creador
+
+---
+
+## Usuarios de prueba del sistema
+
+Para facilitar la evaluación del prototipo, se incluye un usuario moderador predefinido:
+
+- Email: admin@ungs.com  
+- Contraseña: Admin123  
+- Rol: moderador
 
 ---
 
